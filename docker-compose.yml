@@ -1,0 +1,45 @@
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: notes-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: notesdb
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ./backend
+    container_name: notes-backend
+    depends_on:
+      mysql:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/notesdb?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      APP_CORS_ALLOWED_ORIGIN: http://localhost:5173
+    ports:
+      - "8080:8080"
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: notes-frontend
+    depends_on:
+      - backend
+    environment:
+      VITE_API_BASE_URL: http://localhost:8080/api
+    ports:
+      - "5173:5173"
+
+volumes:
+  mysql_data:
