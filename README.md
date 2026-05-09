@@ -23,6 +23,17 @@ Endpoints:
 - `POST /auth/login`
 - `POST /auth/register`
 
+Request details:
+
+- `POST /notes` body:
+  - `{ "title": "string", "content": "string", "userId": 1 }`
+- `PUT /notes/{id}?userId={id}` body:
+  - `{ "title": "string", "content": "string" }`
+- `POST /auth/login` body:
+  - `{ "email": "user@test.com", "password": "secret123" }`
+- `POST /auth/register` body:
+  - `{ "name": "User Name", "email": "user@test.com", "password": "secret123" }`
+
 ### Run Backend
 
 Requirements:
@@ -87,7 +98,7 @@ docker compose up --build
 
 This starts:
 
-- MySQL: `localhost:3306`
+- MySQL: `localhost:3307`
 - Backend: `http://localhost:8080`
 - Frontend: `http://localhost:5173`
 
@@ -115,41 +126,6 @@ This starts:
 - Drawer includes quick actions: My Notes, New Note, Logout.
 - Logged-in users only see notes they created.
 - Added note count indicators in navbar, drawer, and notes section header.
-
----
-
-## Verification Checklist (Submission Ready)
-
-Run these checks before sharing:
-
-### Backend checks
-
-```bash
-cd backend
-mvn -q test
-```
-
-Expected: tests pass with exit code `0`.
-
-### Frontend checks
-
-```bash
-cd frontend
-npm install
-npm run build
-```
-
-Expected: Vite build completes successfully.
-
-### Manual functional checks
-
-- Register a new user, then log in.
-- Create at least 2 notes.
-- Confirm navbar/drawer render and drawer opens/closes.
-- Confirm notes list shows only that logged-in user's notes.
-- Log out and log in as another user.
-- Confirm previous user's notes are not visible.
-- Confirm edit/delete work only on current user's notes.
 
 ---
 
