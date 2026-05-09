@@ -52,7 +52,7 @@ mvn spring-boot:run
 Default MySQL connection expected by backend:
 
 - Host: `localhost`
-- Port: `3306`
+- Port: `3307`
 - Database: `notesdb`
 - Username: `root`
 - Password: `root`
